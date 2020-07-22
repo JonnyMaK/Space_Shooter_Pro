@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
         transform.Translate(Vector3.down * Speed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Laser")
         {

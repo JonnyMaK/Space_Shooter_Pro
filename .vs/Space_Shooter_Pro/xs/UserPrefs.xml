@@ -1,9 +1,11 @@
 ﻿<Properties StartupConfiguration="{BC54F281-3476-C9CD-FF1A-12154BD258E7}|">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Enemy.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/Powerup.cs">
     <Files>
-      <File FileName="Assets/Scripts/Enemy.cs" Line="8" Column="18" />
-      <File FileName="Assets/Scripts/Player.cs" Line="42" Column="28" />
-      <File FileName="Assets/Scripts/Laser.cs" Line="30" Column="23" />
+      <File FileName="Assets/Scripts/Enemy.cs" Line="38" Column="27" />
+      <File FileName="Assets/Scripts/Player.cs" Line="77" Column="108" />
+      <File FileName="Assets/Scripts/Laser.cs" />
+      <File FileName="Assets/Scripts/SpawnManager.cs" />
+      <File FileName="Assets/Scripts/Powerup.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -11,25 +13,17 @@
           <Node name="Space_Shooter_Pro" expanded="True">
             <Node name="Assets" expanded="True">
               <Node name="Scripts" expanded="True">
-                <Node name="Enemy.cs" selected="True" />
+                <Node name="Powerup.cs" selected="True" />
               </Node>
             </Node>
           </Node>
-        </State>
-      </Pad>
-      <Pad Id="MonoDevelop.Debugger.WatchPad">
-        <State />
-      </Pad>
-      <Pad Id="MonoDevelop.UnitTesting.TestPad">
-        <State name="__root__">
-          <Node name="Space_Shooter_Pro" expanded="True" selected="True" />
         </State>
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="3c7d9a52-2a2a-45c3-aaf4-b8afe565a6bf" />
+  <MonoDevelop.Ide.ItemProperties.Assembly-CSharp PreferredExecutionTarget="a0c2f549-1c1e-459b-a82f-3f948ec209ff" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>

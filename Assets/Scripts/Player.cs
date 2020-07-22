@@ -6,18 +6,30 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     public float speed;
+    public float health = 2f;
+    public int lives = 3;
+
     [SerializeField]
     private GameObject _laserPrefab;
+    [SerializeField]
+    private GameObject _tripleshotPrefab;
+
+    public bool TripleShot = false;
+
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _canFire = -1f;
     private Vector3 _centerTurretVector = new Vector3(0, 0.8f, 0);
-    public float health = 2f;
-    public int lives = 3;
+    private SpawnManager _spawnManager;
 
     void Start()
     {
         transform.position = new Vector3(0, 0, 0);
+        _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.LogError("The Spawn Manager is NULL");
+        }
     }
 
     void Update()
@@ -32,9 +44,9 @@ public class Player : MonoBehaviour
 
     void CalculateMovement()
     {
-        //declare variables
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
+
         //Fire3 is shift
         float sprintInput = Input.GetAxis("Fire3") * 2 + 1;
         float speedPlayer = speed * sprintInput * Time.deltaTime;
@@ -59,30 +71,45 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        Instantiate(_laserPrefab, transform.position + _centerTurretVector, Quaternion.identity);
         _canFire = Time.time + _fireRate;
+        if (TripleShot == true)
+        {
+            Instantiate(_tripleshotPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        }
+
+        else {
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1, 0), Quaternion.identity);
+        }
+        
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Hit: " + other.tag);
         if (other.tag == "Enemy")
         {
             Damage();
-
         }
     }
 
     public void Damage ()
     {
-        Debug.Log(health);
-        health --;
+        health--;
 
         if (health <= 0)
         {
             respawn();
         }
     }
+
+    IEnumerator activateTripleShot()
+    {
+        TripleShot = true;
+        yield return new WaitForSeconds(3);
+        TripleShot = false;
+    }
+
+    
 
     private void respawn()
     {
@@ -95,6 +122,8 @@ public class Player : MonoBehaviour
 
         else {
             Destroy(gameObject);
+            _spawnManager.OnPlayerDeath();
+
         }
 
     }
