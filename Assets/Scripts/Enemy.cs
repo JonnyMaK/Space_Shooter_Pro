@@ -7,18 +7,13 @@ public class Enemy : MonoBehaviour
     float randx;
     public float Speed = 1f;
 
-    void Start()
-    {
-        Spawn();
-    }
-
     void Update()
     {
         CalculateMovement();
 
-        if (transform.position.y <= -5.2f)
+      if (transform.position.y <= -5.2f)
         {
-            Spawn();
+           Spawn();
         }
     }
 

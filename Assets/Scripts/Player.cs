@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
     public float speed;
     public float health = 2f;
+    [SerializeField]
+    private float _fireRate = 0.5f;
+    private float _canFire = -1f;
+    private float _speedboost = 1;
+
     public int lives = 3;
+
+    private bool TripleShot = false;
+    
 
     [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleshotPrefab;
 
-    public bool TripleShot = false;
-
-    [SerializeField]
-    private float _fireRate = 0.5f;
-    private float _canFire = -1f;
-    private Vector3 _centerTurretVector = new Vector3(0, 0.8f, 0);
     private SpawnManager _spawnManager;
 
     void Start()
@@ -49,7 +50,7 @@ public class Player : MonoBehaviour
 
         //Fire3 is shift
         float sprintInput = Input.GetAxis("Fire3") * 2 + 1;
-        float speedPlayer = speed * sprintInput * Time.deltaTime;
+        float speedPlayer = speed * sprintInput * Time.deltaTime *_speedboost;
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
@@ -85,7 +86,6 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("Hit: " + other.tag);
         if (other.tag == "Enemy")
         {
             Damage();
@@ -102,14 +102,17 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator activateTripleShot()
+    public void activateTripleShot()
     {
         TripleShot = true;
-        yield return new WaitForSeconds(3);
-        TripleShot = false;
+        StartCoroutine(TripleShotCooldown());
     }
 
-    
+    IEnumerator TripleShotCooldown()
+    {
+        yield return new WaitForSeconds(5);
+        TripleShot = false;
+    }
 
     private void respawn()
     {
@@ -127,5 +130,28 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    public void activateSpeedBoost()
+    {
+        Debug.Log("Collected Speed Boost");
+        _speedboost = 2;
+        StartCoroutine(SpeedBoostCooldown());
+
+    }
+
+    IEnumerator SpeedBoostCooldown()
+    {
+        yield return new WaitForSeconds(5);
+        _speedboost = 1;
+        Debug.Log("speed boost ended");
+    }
+
+    public void activateShield()
+    {
+        Debug.Log("Collected Shield");
+    }
+
+
+
 }
 

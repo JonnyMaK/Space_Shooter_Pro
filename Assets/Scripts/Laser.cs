@@ -7,20 +7,10 @@ public class Laser : MonoBehaviour
 {
     [SerializeField]
     private float _speed=1f;
-    [SerializeField]
-    private GameObject _container;
 
-    void Start()
-    {
-        _container = GameObject.Find("Projectile Container");
-        gameObject.transform.parent = _container.transform;
-    }
-
-    // Update is called once per frame
     void Update()
     {
         CalculateMovement();
-
     }
 
     void CalculateMovement()
@@ -33,16 +23,22 @@ public class Laser : MonoBehaviour
         }
     }
 
-   void Destroy()
-    {
-        Destroy(gameObject);
-    }
-
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.gameObject.tag == "Enemy")
-        Destroy(gameObject);
+        if (other.gameObject.tag == "Enemy")
+        {
+            Destroy();
+        }
     }
 
+    void Destroy()
+    {
+        if (transform.parent != null)
+        {
+            Destroy(transform.parent.gameObject);
+        }
+        Destroy(gameObject);
+        
+    }
 }
 

@@ -9,9 +9,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyprefab;
     [SerializeField]
-    private GameObject _container;
+    private GameObject _enemycontainer;
     [SerializeField]
-    private GameObject _powerupPrefab;
+    private GameObject[] _powerups;
+    [SerializeField]
+    private GameObject _powerupcontainer;
     [SerializeField]
     public bool PlayerDead = false;
 
@@ -25,14 +27,12 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemy()
     {
-        Vector3 posToSpawn = new Vector3(0, 0, 0);
-
         while (PlayerDead == false)
         {
-            GameObject newEnemy = Instantiate(_enemyprefab, posToSpawn, Quaternion.identity);
-            newEnemy.transform.parent = _container.transform;
-            yield return new WaitForSeconds(2);
             
+            GameObject newEnemy = Instantiate(_enemyprefab, new Vector3(Random.Range(-9, 9), 7.4f, 0), Quaternion.identity);
+            newEnemy.transform.parent = _enemycontainer.transform;
+            yield return new WaitForSeconds(2);
         }
     }
 
@@ -41,20 +41,18 @@ public class SpawnManager : MonoBehaviour
        
         while (PlayerDead == false)
         {
-            GameObject powerUp = Instantiate(_powerupPrefab, new Vector3(Random.Range(-9, 9), 7.4f, 0), Quaternion.identity);
-            powerUp.transform.parent = _container.transform;
-            yield return new WaitForSeconds(10);
+            //int i = Random.Range(0, 2);
+            int randPowerUp = Random.Range(0, 2);
+
+            GameObject powerUp = Instantiate(_powerups[randPowerUp], new Vector3(Random.Range(-9, 9), 7.4f, 0), Quaternion.identity);
+            powerUp.transform.parent = _powerupcontainer.transform;
+            yield return new WaitForSeconds(1);
 
         }
     }
 
     public void OnPlayerDeath()
     {
-        Debug.Log("bum");
         PlayerDead = true;
     }
 }
-
-
-//Instantiate(_laserPrefab, transform.position + _centerTurretVector, Quaternion.identity);
-//_canFire = Time.time + _fireRate;
