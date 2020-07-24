@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public float speed;
     public float health = 2f;
+    private float _startinghealth;
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _canFire = -1f;
@@ -14,6 +15,11 @@ public class Player : MonoBehaviour
     public int lives = 3;
 
     private bool TripleShot = false;
+    [SerializeField]
+    private bool _shieldActive = false;
+
+    [SerializeField]
+    private GameObject _shield;
     
 
     [SerializeField]
@@ -25,6 +31,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        _startinghealth = health;
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         if (_spawnManager == null)
@@ -94,8 +101,13 @@ public class Player : MonoBehaviour
 
     public void Damage ()
     {
-        health--;
+        if (_shieldActive == true) {
+            _shieldActive = false;
+            return;
+        }
 
+        health--;
+        Debug.Log("OUCH");
         if (health <= 0)
         {
             respawn();
@@ -119,7 +131,7 @@ public class Player : MonoBehaviour
         lives--;
         if (lives > 0)
         {
-            health = 2;
+            health = _startinghealth;
             transform.position = new Vector3(0, 0, 0);
         }
 
@@ -148,7 +160,18 @@ public class Player : MonoBehaviour
 
     public void activateShield()
     {
+        _shieldActive = true;
         Debug.Log("Collected Shield");
+        StartCoroutine(ShieldCooldown());
+        _shield.SetActive(true);
+    }
+
+    IEnumerator ShieldCooldown()
+    {
+        yield return new WaitForSeconds(5);
+        _shieldActive = false;
+        Debug.Log("shield ended");
+        _shield.SetActive(false);
     }
 
 

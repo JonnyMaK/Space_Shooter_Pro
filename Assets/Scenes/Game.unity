@@ -336,7 +336,7 @@ MonoBehaviour:
   _powerups:
   - {fileID: 2889754044973774536, guid: b72fbfd84f1ba4992ae859411fdb1625, type: 3}
   - {fileID: 7259335076742592697, guid: 0fa94fe8530084469abd02c577d32ab7, type: 3}
-  - {fileID: 0}
+  - {fileID: 5257176043193234359, guid: ccea402655cba464da8e2f0f549d028e, type: 3}
   _powerupcontainer: {fileID: 1025762128}
   PlayerDead: 0
 --- !u!4 &1068008693
@@ -581,9 +581,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 4
-  health: 4
+  health: 10
   _fireRate: 0.1
   lives: 3
+  _shieldActive: 0
   _laserPrefab: {fileID: 6594744277805789581, guid: 160683c66cbbf44dfa03e928337011d3,
     type: 3}
   _tripleshotPrefab: {fileID: 2440853581702137965, guid: c2d70579e47624c31aa11d7e934d21ea,

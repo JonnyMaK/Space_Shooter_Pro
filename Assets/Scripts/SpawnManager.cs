@@ -41,8 +41,7 @@ public class SpawnManager : MonoBehaviour
        
         while (PlayerDead == false)
         {
-            //int i = Random.Range(0, 2);
-            int randPowerUp = Random.Range(0, 2);
+            int randPowerUp = Random.Range(0, 3);
 
             GameObject powerUp = Instantiate(_powerups[randPowerUp], new Vector3(Random.Range(-9, 9), 7.4f, 0), Quaternion.identity);
             powerUp.transform.parent = _powerupcontainer.transform;
