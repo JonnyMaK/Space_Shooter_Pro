@@ -6,6 +6,13 @@ public class Enemy : MonoBehaviour
 {
     float randx;
     public float Speed = 1f;
+    Animator _animation;
+    private bool _dying = false;
+
+        private void Start()
+    {
+        _animation = gameObject.GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -30,19 +37,32 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Laser")
+        
+        if (other.tag == "Laser" && _dying == false)
         {
-            Destroy(gameObject);
+            //_animation.SetTrigger("Death");
+            //Destroy(gameObject);
+            StartCoroutine(Death());
+            
         }
 
-        if (other.tag == "Player")
+        if (other.tag == "Player" && _dying == false)
         {
             Player player = other.transform.GetComponent<Player>();
+            StartCoroutine(Death());
 
             if (player != null)
             {
                 player.Damage();
             }
         }
+    }
+
+    IEnumerator Death ()
+    {
+        _dying = true;
+        _animation.SetTrigger("Death");
+        yield return new WaitForSeconds(2);
+        Destroy(gameObject);
     }
 }

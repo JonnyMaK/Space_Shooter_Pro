@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     private float _speedboost = 1;
 
     public int lives = 3;
+    [SerializeField]
+    private int _score = 0;
 
     private bool TripleShot = false;
     [SerializeField]
@@ -28,12 +30,14 @@ public class Player : MonoBehaviour
     private GameObject _tripleshotPrefab;
 
     private SpawnManager _spawnManager;
+    private UIManager _UIManager;
 
     void Start()
     {
         _startinghealth = health;
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         if (_spawnManager == null)
         {
             Debug.LogError("The Spawn Manager is NULL");
@@ -103,11 +107,12 @@ public class Player : MonoBehaviour
     {
         if (_shieldActive == true) {
             _shieldActive = false;
+            _shield.SetActive(false);
+            Debug.Log("OuchShieldgone");
             return;
         }
 
         health--;
-        Debug.Log("OUCH");
         if (health <= 0)
         {
             respawn();
@@ -129,6 +134,9 @@ public class Player : MonoBehaviour
     private void respawn()
     {
         lives--;
+
+        _UIManager.LivesUpdate(lives);
+
         if (lives > 0)
         {
             health = _startinghealth;
@@ -138,7 +146,6 @@ public class Player : MonoBehaviour
         else {
             Destroy(gameObject);
             _spawnManager.OnPlayerDeath();
-
         }
 
     }
@@ -160,8 +167,6 @@ public class Player : MonoBehaviour
 
     public void activateShield()
     {
-        _shieldActive = true;
-        Debug.Log("Collected Shield");
         StartCoroutine(ShieldCooldown());
         _shield.SetActive(true);
     }
@@ -173,8 +178,5 @@ public class Player : MonoBehaviour
         Debug.Log("shield ended");
         _shield.SetActive(false);
     }
-
-
-
 }
 

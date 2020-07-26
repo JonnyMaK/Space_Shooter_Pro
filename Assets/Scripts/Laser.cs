@@ -7,7 +7,17 @@ public class Laser : MonoBehaviour
 {
     [SerializeField]
     private float _speed=1f;
+    private UIManager _UIManager;
 
+    private void Start()
+    {
+        _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+
+        if (_UIManager == null)
+        {
+            Debug.LogError("The UIManager is Null");
+        }
+    }
     void Update()
     {
         CalculateMovement();
@@ -28,6 +38,7 @@ public class Laser : MonoBehaviour
         if (other.gameObject.tag == "Enemy")
         {
             Destroy();
+            _UIManager.ScoreUpdate(1);
         }
     }
 
